@@ -50,10 +50,14 @@ export const authSlice = createSlice({
       state.token = null;
       state.status = 'not-authenticated';
       state.loading = false;
+    },
+    clearMessage: (state) => {
+      state.errorMessage = ''
     }
   },
   extraReducers: (builder) => {
     builder.addCase(loginAction.pending, (state, action) => {
+      state.status = 'checking';
       state.loading = true;
     }),
     builder.addCase(loginAction.fulfilled, (state: AuthState, action: PayloadAction<any>) => {
@@ -64,6 +68,7 @@ export const authSlice = createSlice({
     builder.addCase(loginAction.rejected, (state: AuthState, action: PayloadAction<any>) => {
       state.token = null;
       state.loading = false;
+      state.status = 'not-authenticated';
       state.errorMessage = action.payload.errorMessage;
     })
   }
@@ -74,7 +79,8 @@ export const {
   login,
   restoreToken,
   logout,
-  loadingLogout
+  loadingLogout,
+  clearMessage
 } = authSlice.actions
 
 export default authSlice.reducer

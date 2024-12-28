@@ -1,3 +1,3 @@
 //LOGIN
-export const LOGIN = "/login"
-export const REGISTER = "/register"
+export const LOGIN = "/auth/login"
+export const REGISTER = "/auth/register"

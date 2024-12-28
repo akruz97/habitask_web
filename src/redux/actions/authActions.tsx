@@ -12,11 +12,20 @@ export const loginAction  = createAsyncThunk('autLogin', async ({
             email: email,
             password: password
         });
+        console.log(response);
+        if(response.status) {
+            sessionStorage.setItem('token', response.data.token);
+            return response.data;
+        }
 
+        return rejectWithValue({
+            errorMessage: response.data.message
+        });
+        
     } catch (error) {
+        console.log(error);
         return rejectWithValue({
             errorMessage: error.message
-            // errorMessage: ERROR_AUTH_UNKNOWN
         });
     }
 });

@@ -6,7 +6,7 @@ interface Props {
 
 export const Layout = ({ children }: Props) => {
     return (
-        <div className="flex-1">
+        <div className="">
             <div>
                 <h1 className="text-center text-3xl">Habitask Web</h1>
             </div>

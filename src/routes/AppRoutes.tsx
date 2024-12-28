@@ -4,12 +4,17 @@ import { HomePage } from '../pages/protected/Home'
 import { LoginPage } from '../pages/public/Login'
 import { PrivateRoutes } from '../pages/protected'
 import { PublicRoutes } from '../pages/public'
-
-type statusAuth = 'checking' | 'authenticated' | 'no-authenticated'
+import { useSelector } from 'react-redux'
+import { RootState } from '../redux/store'
 
 export const AppRoutes = () => {
 
-    const status: statusAuth = 'no-authenticated'
+    const { status } = useSelector((state: RootState) => state.auth);
+
+    if(status === 'checking'){
+        return <p>Loading....</p>
+    }
+
     return (
         <BrowserRouter>
             <Routes>
@@ -18,6 +23,7 @@ export const AppRoutes = () => {
                     <Route path='/*' element={<PrivateRoutes />} /> : 
                     <Route path='/*' element={<PublicRoutes />} />
                }
+               <Route path='*' element={<Navigate to='/login' replace />} />
             </Routes>
         </BrowserRouter>
     )
