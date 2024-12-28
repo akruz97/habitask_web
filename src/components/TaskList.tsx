@@ -4,6 +4,9 @@ import moment from "moment"
 
 
 export const TaskList = ({ tasks = [] } : ITaskList) => {
+
+    console.log('Task: ', tasks);
+
     return (
         <React.Fragment >
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

@@ -1,17 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { getTasksAction } from '../actions/taskActions';
+import { createTaskAction, getTasksAction } from '../actions/taskActions';
 
 export interface TaskState {
   tasks: Array<Object>;
   errorMessage: string | null;
-  loading: boolean
+  loading: boolean,
+  loadingCreate: boolean,
+  errorCreate: string | null,
+  successCreate: string | null
 }
 
 const initialState: TaskState = {
  tasks: [],
  errorMessage: null,
- loading: false
+ loading: false,
+ loadingCreate: false,
+ errorCreate: null,
+ successCreate: null
 }
 
 export const taskSlice = createSlice({
@@ -20,7 +26,12 @@ export const taskSlice = createSlice({
   reducers: {
     clearMessage: (state) => {
       state.errorMessage = ''
-        }
+    },
+    resetFlagsTask: (state) => {
+      state.errorCreate = null,
+      state.successCreate = null
+      state.loading = false
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(getTasksAction.pending, (state, action) => {
@@ -35,12 +46,31 @@ export const taskSlice = createSlice({
         state.tasks = [...state.tasks]
         state.loading = false
         state.errorMessage = action.payload.errorMessage
+    }),
+
+    builder.addCase(createTaskAction.pending, (state, action) => {
+      state.loadingCreate = true
+    }),
+    builder.addCase(createTaskAction.fulfilled, (state: TaskState, action: PayloadAction<any>) => {
+        state.tasks = [...state.tasks]
+        state.loadingCreate = false
+        state.errorMessage = null
+        state.successCreate = 'Create'
+        state.errorCreate = null
+    }),
+    builder.addCase(createTaskAction.rejected, (state: TaskState, action: PayloadAction<any>) => {
+        state.tasks = [...state.tasks]
+        state.loadingCreate = false
+        // state.errorMessage = action.payload.errorMessage
+        state.errorCreate = action.payload.errorMessage
+        state.successCreate = null
     })
   }
 })
 
 export const { 
-    clearMessage
+    clearMessage,
+    resetFlagsTask
 } = taskSlice.actions
 
 export default taskSlice.reducer

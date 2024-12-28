@@ -49,3 +49,10 @@ export interface RegisterData {
 export interface ITaskList {
     tasks: Array<Object>;
 }
+
+export interface ICreateTask {
+    title: string,
+	completed: boolean,
+	// user_id: number,
+	user_asigned_id: number
+}

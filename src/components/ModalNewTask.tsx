@@ -3,7 +3,6 @@ import {
   Button,
   Dialog,
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
   Typography,
@@ -11,23 +10,80 @@ import {
   Checkbox,
   Select,
   Option,
+  Spinner
 } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { getListUserAction } from "../redux/actions/userActions";
- 
+import { ICreateTask } from "../interfaces";
+import { useForm } from '../hooks/useForm'
+import { createTaskAction } from "../redux/actions/taskActions";
+import { toast } from "react-toastify";
+import { resetFlagsTask } from "../redux/slices/taskReducer";
+
 export function ModalNewTask({
   open,
   handleOpen
 }) {
-  // const [open, setOpen] = React.useState(false);
   const dispatch: any = useDispatch();
 
   const { userList = [] } = useSelector((state: RootState) => state.user);
 
+  const { form, onChange, setFormValue } = useForm({
+      title: '',
+      completed: false,
+      // user_id: 0,
+      user_asigned_id: 0
+  })
+
+  const { 
+    errorCreate,
+    successCreate,
+    loadingCreate
+  } = useSelector((state: RootState) => state.task);
+
   useEffect(() => {
     dispatch(getListUserAction());
   }, [dispatch])
+
+  useEffect(() => {
+    if(errorCreate && errorCreate.length){
+      toast('No se ha podido crear la tarea', { autoClose: 3000, type: 'error' });
+      dispatch(resetFlagsTask());
+      handleOpen();
+      return;
+    }
+
+    if(successCreate && successCreate.length){
+      toast('Tarea creada con éxito', { autoClose: 3000, type: 'success' });
+      dispatch(resetFlagsTask());
+      handleOpen()
+      return;
+    }
+  }, [errorCreate, successCreate])
+
+  const onSaveTask = () => {
+
+    let data: ICreateTask = {
+      title: form.title,
+      completed: form.completed,
+      user_asigned_id: form.user_asigned_id
+    }
+    console.log(data);
+    dispatch(createTaskAction(data));
+  }
+
+  const onChangeTitle = (e: any) => {
+    onChange(e.target.value, 'title');
+  }
+
+  const onSelectAsignedUser = (val: any) => {
+    onChange(val, 'user_asigned_id')
+  }
+
+  const onChangeComplete = (val: any) => {
+    onChange(val.target.checked, 'completed');
+  }
  
   return (
     <>
@@ -47,7 +103,7 @@ export function ModalNewTask({
             <Typography className="-mb-2" variant="h6">
               Title
             </Typography>
-            <Input label="" size="lg" />
+            <Input label="" size="lg" onChange={onChangeTitle} />
 
             <Typography className="-mb-2" variant="h6">
               Assign user
@@ -55,18 +111,18 @@ export function ModalNewTask({
 
             <div className="w-100">
               <Select
-                // label="Asignar"
                 animate={{
                   mount: { y: 0 },
                   unmount: { y: 25 },
                 }}
-                onChange={(val) => console.log(val)}
+                onChange={onSelectAsignedUser}
               >
                 {
                   userList.map((user: any) => {
                     return (
                       <Option key={`${user.id}`} 
-                              value={`${user.id}`} >{`${user.name} ${user.lastname}`}</Option>
+                              value={`${user.id}`} >{`${user.name} ${user.lastname}`}
+                      </Option>
                     )
                   })
                 }
@@ -75,12 +131,17 @@ export function ModalNewTask({
            
            
             <div className="-ml-2.5 -mt-3">
-              <Checkbox label="Mark as complete" />
+              <Checkbox label="Mark as complete" 
+                onChange={onChangeComplete} 
+                
+                />
             </div>
           </CardBody>
           <CardFooter className="pt-0">
-            <Button variant="gradient" onClick={handleOpen} fullWidth>
-              Save
+            <Button variant="gradient" onClick={onSaveTask} fullWidth>
+              {
+                loadingCreate ?  <Spinner /> : 'Save'
+              }
             </Button>
             
           </CardFooter>
