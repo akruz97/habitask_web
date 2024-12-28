@@ -10,3 +10,4 @@ export const postRegister = (data : any) => api.create(url.REGISTER, data);
 
 export const getTasks = () => api.get(url.GET_TASKS, {});
 export const getListUser = () => api.get(url.GET_LIST_USER, {});
+export const getUserProfile= () => api.get(url.GET_USER_PROFILE, {});

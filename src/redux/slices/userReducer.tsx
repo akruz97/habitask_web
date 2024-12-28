@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { getListUserAction } from '../actions/userActions';
+import { getListUserAction, getUserProfileAction } from '../actions/userActions';
 
 export interface UserState {
     profile: {
@@ -45,6 +45,21 @@ export const userSlice = createSlice({
     }),
     builder.addCase(getListUserAction.rejected, (state: UserState, action: PayloadAction<any>) => {
         state.userList = [...state.userList]
+        state.loading = false
+        state.errorMessage = action.payload.errorMessage
+    }),
+
+
+    builder.addCase(getUserProfileAction.pending, (state, action) => {
+        state.loading = true
+    }),
+    builder.addCase(getUserProfileAction.fulfilled, (state: UserState, action: PayloadAction<any>) => {
+        state.profile = action.payload
+        state.loading = false
+        state.errorMessage = null
+    }),
+    builder.addCase(getUserProfileAction.rejected, (state: UserState, action: PayloadAction<any>) => {
+        state.profile = {...state.profile}
         state.loading = false
         state.errorMessage = action.payload.errorMessage
     })

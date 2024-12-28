@@ -27,7 +27,7 @@ export function ModalNewTask({
 
   useEffect(() => {
     dispatch(getListUserAction());
-  }, dispatch)
+  }, [dispatch])
  
   return (
     <>
@@ -41,7 +41,7 @@ export function ModalNewTask({
         <Card className="mx-auto w-full max-w-[24rem]">
           <CardBody className="flex flex-col gap-4">
             <Typography variant="h4" color="blue-gray">
-              Nueva tarea
+              New Task
             </Typography>
             
             <Typography className="-mb-2" variant="h6">
@@ -65,7 +65,8 @@ export function ModalNewTask({
                 {
                   userList.map((user: any) => {
                     return (
-                      <Option value={user.id} >{`${user.name} ${user.lastname}`}</Option>
+                      <Option key={`${user.id}`} 
+                              value={`${user.id}`} >{`${user.name} ${user.lastname}`}</Option>
                     )
                   })
                 }
@@ -79,7 +80,7 @@ export function ModalNewTask({
           </CardBody>
           <CardFooter className="pt-0">
             <Button variant="gradient" onClick={handleOpen} fullWidth>
-              Guardar
+              Save
             </Button>
             
           </CardFooter>

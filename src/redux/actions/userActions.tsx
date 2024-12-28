@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getListUser } from "../../services";
+import { getListUser, getUserProfile } from "../../services";
 
 export const getListUserAction  = createAsyncThunk('getListUserAction', async (_, { rejectWithValue } ) => {
     try {
@@ -23,7 +23,7 @@ export const getListUserAction  = createAsyncThunk('getListUserAction', async (_
 
 export const getUserProfileAction  = createAsyncThunk('getUserProfileAction', async (_, { rejectWithValue } ) => {
     try {
-        const response = await getListUser()
+        const response = await getUserProfile()
         console.log(response);
         if(response.status) {
             return response.data;

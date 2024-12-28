@@ -2,11 +2,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import habitaskApi from "../../const/api";
 import { AuthResponse, LoginData, LoginResponse } from "../../interfaces";
 import { postLogin } from "../../services";
+import { getUserProfileAction } from "./userActions";
 
 export const loginAction  = createAsyncThunk('autLogin', async ({
     email,
     password
-}: LoginData, { rejectWithValue } ) => {
+}: LoginData, { rejectWithValue, dispatch } ) => {
     try {
         const response = await postLogin({
             email: email,
@@ -15,6 +16,7 @@ export const loginAction  = createAsyncThunk('autLogin', async ({
         console.log(response);
         if(response.status) {
             sessionStorage.setItem('token', response.data.token);
+            dispatch(getUserProfileAction());
             return response.data;
         }
 
