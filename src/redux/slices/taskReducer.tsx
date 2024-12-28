@@ -27,7 +27,7 @@ export const taskSlice = createSlice({
         state.loading = true
     }),
     builder.addCase(getTasksAction.fulfilled, (state: TaskState, action: PayloadAction<any>) => {
-        state.tasks = action.payload.data
+        state.tasks = action.payload
         state.loading = false
         state.errorMessage = null
     }),

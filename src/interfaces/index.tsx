@@ -44,3 +44,8 @@ export interface RegisterData {
     accept_terms: boolean;
     role: string;
 }
+
+
+export interface ITaskList {
+    tasks: Array<Object>;
+}

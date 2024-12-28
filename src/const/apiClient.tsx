@@ -9,7 +9,7 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 
 // content type
 const authUser: any = sessionStorage.getItem("authUser")
-const token = JSON.parse(authUser) ? JSON.parse(authUser).token : null;
+const token = sessionStorage.getItem('token');
 
 if (token) {
   axios.defaults.headers['x-token'] = token;

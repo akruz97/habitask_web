@@ -10,11 +10,11 @@ export const Header = () => {
                         <Link to="/">Mi Perfil</Link>
                     </li>
                     <li className="p-4">
-                        <Link to="tasks">Tareas</Link>
+                        <Link to="/tasks">Tareas</Link>
                     </li>
                    
                     <li className="p-4">
-                        <a href="">Logout</a>
+                        <a href="">Salir</a>
                     </li>
                 </ul>
 
