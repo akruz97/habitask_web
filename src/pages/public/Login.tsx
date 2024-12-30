@@ -17,8 +17,8 @@ export const LoginPage = () => {
         status
      } = useSelector((state: RootState) => state.auth);
 
-    const [email, setEmail] = useState<string>('jcruzal97+t1@gmail.com');
-    const [password, setPassword] = useState<string>('Barce@123')
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('')
 
     const navigate = useNavigate();
 
