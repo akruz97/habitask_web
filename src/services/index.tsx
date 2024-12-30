@@ -9,7 +9,7 @@ const api = new APIClient();
 export const postLogin = (data : any) => api.create(url.LOGIN, data);
 export const postRegister = (data : RegisterData) => api.create(url.REGISTER, data);
 
-export const getTasks = () => api.get(url.GET_TASKS, {});
+export const getTasks = (offset: number, limit: number) => api.get(`${url.GET_TASKS}?offset=${offset}&limit=${limit}`, {});
 export const getListUser = () => api.get(url.GET_LIST_USER, {});
 export const getUserProfile= () => api.get(url.GET_USER_PROFILE, {});
 

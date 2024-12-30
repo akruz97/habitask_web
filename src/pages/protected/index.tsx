@@ -6,9 +6,12 @@ import { TasksPage } from './Tasks';
 export const PrivateRoutes = () => {
     return (
         <Routes>
-            <Route path='*' element={<Navigate to='/' replace />} />
-            <Route path='/' element={<HomePage />} />
-            <Route path='tasks' element={<TasksPage />} />
+            <Route path='/tasks' element={<TasksPage />} />
+            <Route path='/home'   element={<HomePage />} />
+            {/* <Route path='/index' element={<HomePage />} /> */}
+            {/* <Route path='/' index element={<HomePage />} /> */}
+            {/* <Route path='/' index element={<Navigate to='/home' />} /> */}
+            {/* <Route path='*' element={<Navigate to='/home' />} /> */}
         </Routes>
     );
 };

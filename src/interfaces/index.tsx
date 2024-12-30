@@ -54,5 +54,7 @@ export interface ICreateTask {
     title: string,
 	completed: boolean,
 	// user_id: number,
-	user_asigned_id: number
+	user_asigned_id: number,
+    user_asigned?: {},
+    user_owner?: {}
 }

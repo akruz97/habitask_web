@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// export const baseURL = 'http://localhost:7070/api'
-export const baseURL =  `http://52.90.5.41/api`
+export const baseURL = 'http://localhost:7070/api'
+// export const baseURL =  `http://52.90.5.41/api`
 
 const habitaskApi = axios.create({baseURL});
 

@@ -27,7 +27,7 @@ export function ModalNewTask({
 }) {
   const dispatch: any = useDispatch();
 
-  const { userList = [] } = useSelector((state: RootState) => state.user);
+  const { userList = [], profile } = useSelector((state: RootState) => state.user);
 
   const { form, onChange, setFormValue } = useForm({
       title: '',
@@ -64,10 +64,15 @@ export function ModalNewTask({
 
   const onSaveTask = () => {
 
+    let users = [...userList];
+    let asignedIndex = users.findIndex(x => x.id === form.user_asigned_id);
+    console.log('asigned', asignedIndex);
     let data: ICreateTask = {
       title: form.title,
       completed: form.completed,
-      user_asigned_id: form.user_asigned_id
+      user_asigned_id: form.user_asigned_id,
+      user_owner: profile,
+      user_asigned: users[asignedIndex]
     }
     console.log(data);
     dispatch(createTaskAction(data));
@@ -78,7 +83,7 @@ export function ModalNewTask({
   }
 
   const onSelectAsignedUser = (val: any) => {
-    onChange(val, 'user_asigned_id')
+    onChange(parseInt(val), 'user_asigned_id')
   }
 
   const onChangeComplete = (val: any) => {

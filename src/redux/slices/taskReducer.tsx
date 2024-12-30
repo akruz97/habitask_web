@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { createTaskAction, deleteTaskAction, getTasksAction, markAsCompleteTaskAction } from '../actions/taskActions';
+import { TaskProps } from './userReducer';
+import moment from 'moment';
 
 export interface TaskState {
-  tasks: Array<Object>;
+  tasks: Array<TaskProps>;
   errorMessage: string | null;
   loading: boolean,
   loadingCreate: boolean,
@@ -13,19 +15,25 @@ export interface TaskState {
   successMarkComplete: string | null,
   errorDelete: string | null,
   successDelete: string | null
+  page: number ,
+  limit: number,
+  offset: number 
 }
 
 const initialState: TaskState = {
- tasks: [],
- errorMessage: null,
- loading: false,
- loadingCreate: false,
- errorCreate: null,
- successCreate: null,
- errorMarkComplete: null,
- successMarkComplete: null,
- errorDelete: null,
- successDelete:  null
+  tasks: [],
+  errorMessage: null,
+  loading: false,
+  loadingCreate: false,
+  errorCreate: null,
+  successCreate: null,
+  errorMarkComplete: null,
+  successMarkComplete: null,
+  errorDelete: null,
+  successDelete:  null,
+  limit: 5,
+  offset: 0,
+  page: 1
 }
 
 export const taskSlice = createSlice({
@@ -46,6 +54,18 @@ export const taskSlice = createSlice({
     },
     clearTasks: (state) => {
       state = initialState
+    },
+    updateTasks: (state, action) => {
+      let index = [...state.tasks].findIndex(x => x.id === action.payload.id);
+      state.tasks[index].completed = true;
+      state.tasks[index].date_completed = moment().format('YYYY-MM-DD')
+    },
+    addTask: (state, action) => {
+      state.tasks.push(action.payload);
+    },
+    removeTask: (state, action) => {
+      let filtered = [...state.tasks].filter(x => x.id !== action.payload.id);
+      state.tasks = [...filtered]
     }
   },
   extraReducers: (builder) => {
@@ -81,9 +101,7 @@ export const taskSlice = createSlice({
         state.successCreate = null
     }),
 
-    // builder.addCase(deleteTaskAction.pending, (state, action) => {
-    //   state.loadingCreate = true
-    // }),
+
     builder.addCase(deleteTaskAction.fulfilled, (state: TaskState, action: PayloadAction<any>) => {
         state.tasks = [...state.tasks]
         state.errorMessage = null
@@ -97,7 +115,7 @@ export const taskSlice = createSlice({
     }),
 
 
-    builder.addCase(markAsCompleteTaskAction.fulfilled, (state: TaskState, action: PayloadAction<any>) => {
+    builder.addCase(markAsCompleteTaskAction.fulfilled, (state: TaskState, action: PayloadAction<any>) => {      
       state.tasks = [...state.tasks]
       state.errorMessage = null
       state.successMarkComplete = action.payload.message
@@ -114,7 +132,10 @@ export const taskSlice = createSlice({
 export const { 
     clearMessage,
     resetFlagsTask,
-    clearTasks
+    clearTasks,
+    updateTasks,
+    addTask,
+    removeTask
 } = taskSlice.actions
 
 export default taskSlice.reducer

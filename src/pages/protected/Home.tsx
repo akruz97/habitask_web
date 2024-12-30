@@ -17,7 +17,6 @@ export const HomePage = () => {
 
     return (
         <React.Fragment>
-            <Header />
             <div className="page">
                 <Typography variant="h3" color="blue-gray">
                 Perfil

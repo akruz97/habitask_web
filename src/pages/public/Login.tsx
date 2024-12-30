@@ -1,22 +1,26 @@
 import React, { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RootState } from "../../redux/store";
 import { loginAction } from "../../redux/actions/authActions";
 import { LoginData } from "../../interfaces";
 import { clearMessage } from "../../redux/slices/authReducer";
 import { toast } from "react-toastify";
+import { Input, Typography } from "@material-tailwind/react";
 
 export const LoginPage = () => {
 
     const dispatch: any = useDispatch();
 
     const { 
-        errorMessage
+        errorMessage,
+        status
      } = useSelector((state: RootState) => state.auth);
 
-    const [email, setEmail] = useState<string>('jose.cruzal@outlook.com');
-    const [password, setPassword] = useState<string>('jcruz123')
+    const [email, setEmail] = useState<string>('jcruzal97+t1@gmail.com');
+    const [password, setPassword] = useState<string>('Barce@123')
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if(errorMessage && errorMessage?.length){
@@ -24,7 +28,12 @@ export const LoginPage = () => {
             dispatch(clearMessage());
             return;
         }
-    }, [errorMessage])
+
+        if(status === 'authenticated'){
+            navigate('/home');
+            return;
+        }
+    }, [errorMessage, status])
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -39,16 +48,45 @@ export const LoginPage = () => {
     const onChangePassword = (e: any) => setPassword(e.target.value)
 
     return (
-        <div className="mx-auto">
-            <form action="" onSubmit={onSubmit}>
-                <div className="mt-5">
-                    <label>Email</label>
-                    <input type="email" id="email" value={email} className="border-2" onChange={onChangeEmail}/>
+        <div className="flex">
+            <form action="" className="mx-auto mt-8 mb-2 w-80 max-w-screen-lg sm:w-96"  onSubmit={onSubmit}>
+                <div className="justify-items-start">
+              
+                    <Typography variant="h6" color="blue-gray" className="">
+                        Email
+                    </Typography>
+                    <Input
+                        size="lg"
+                        placeholder="name@mail.com"
+                        className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                        labelProps={{
+                        className: "before:content-none after:content-none",
+                        }}
+                        type="email" 
+                        id="email" 
+                        value={email}  
+                        onChange={onChangeEmail}
+                    />
+                   
                 </div>
                 
-               <div className="mt-5">
-                    <label>Password</label>
-                    <input type="password" id="password" value={password} className="border-2" onChange={onChangePassword}/>
+               <div className="mt-5 justify-items-start">
+                    <Typography variant="h6" color="blue-gray" className="">
+                       Password
+                    </Typography>
+                    <Input
+                        size="lg"
+                        placeholder="name@mail.com"
+                        className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                        labelProps={{
+                        className: "before:content-none after:content-none",
+                        }}
+                        type="password" 
+                        id="password" 
+                        value={password}
+                        onChange={onChangePassword}
+                    />
+                   
                </div>
                <div className="my-4">
                     <button  className="btn bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 px-5 py-2.5 text-white rounded-lg" type="submit" >

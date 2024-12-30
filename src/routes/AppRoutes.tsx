@@ -18,12 +18,13 @@ export const AppRoutes = () => {
     return (
         <BrowserRouter>
             <Routes>
-               {
-                    status == "authenticated" ? 
-                    <Route path='/*' element={<PrivateRoutes />} /> : 
-                    <Route path='/*' element={<PublicRoutes />} />
-               }
-               <Route path='*' element={<Navigate to='/login' replace />} />
+               {/* {
+                    status == "authenticated"  ?  */}
+                   
+                    <Route path='/' element={<PublicRoutes />} />
+                    <Route path='/' element={<PrivateRoutes />} />
+               {/* } */}
+               {/* <Route path='*' element={<Navigate to='/login' replace />} /> */}
             </Routes>
         </BrowserRouter>
     )

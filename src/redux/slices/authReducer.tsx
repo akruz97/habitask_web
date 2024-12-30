@@ -11,6 +11,7 @@ export interface AuthState {
     | 'loading'
   token: string | null;
   errorMessage: string | null;
+  successMessage: string | null;
   errorCode: number | null;
   userData: AuthUserData | null;
   loading: boolean;
@@ -24,6 +25,7 @@ const initialState: AuthState = {
   token: null,
   userData: null,
   errorMessage: '',
+  successMessage: '',
   errorCode: null,
   loading: false,
   errorRegister: null,

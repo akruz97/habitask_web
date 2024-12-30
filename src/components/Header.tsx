@@ -12,9 +12,15 @@ export const Header = () => {
     const navigate = useNavigate()
 
     const { profile } = useSelector((state: RootState) => state.user);
+    const { token } = useSelector((state: RootState) => state.auth);
 
     useEffect(() => {
         console.log(profile);
+        if(!token){
+            dispatch(logoutAction());
+            navigate('/login');
+            return;
+        }
         dispatch(getUserProfileAction());
         
     }, [dispatch]);
@@ -29,10 +35,10 @@ export const Header = () => {
             <div className=" px-5 py-5">
                 <ul className="flex justify-self-start" >
                 <li className="p-4">
-                        <Link to="/">{`${profile.name} ${profile.lastname}`}</Link>
+                        <Link to="/home">{`${profile.name} ${profile.lastname}`}</Link>
                     </li>
                     <li className="p-4">
-                        <Link to="/">Mi Perfil</Link>
+                        <Link to="/home">Mi Perfil</Link>
                     </li>
                     <li className="p-4">
                         <Link to="/tasks">Tareas</Link>

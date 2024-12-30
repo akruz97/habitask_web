@@ -11,8 +11,6 @@ import { deleteTaskAction, markAsCompleteTaskAction } from "../redux/actions/tas
 
 export const TaskList = ({ tasks = [] } : ITaskList) => {
 
-    console.log('Task: ', tasks);
-
     const { 
         errorDelete,
         successDelete,
@@ -76,7 +74,7 @@ export const TaskList = ({ tasks = [] } : ITaskList) => {
                             User Asigned
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Completed
+                            Status
                         </th>
                         <th scope="col" className="px-6 py-3">
                             Date Created
@@ -98,31 +96,31 @@ export const TaskList = ({ tasks = [] } : ITaskList) => {
                 <tbody>
     
             {
-                tasks.map((item: TaskProps) => {
+                tasks.map((task: TaskProps) => {
                     return (
-                        <tr key={item.id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                        <tr key={task.id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {item.title}
+                            {task.title}
                             </th>
                             <td className="px-6 py-4">
-                            {`${item.user_owner.name} ${item.user_owner.lastname}`}
+                            {`${task.user_owner.name} ${task.user_owner.lastname}`}
                             </td>
                             <td className="px-6 py-4">
-                            {`${item.user_asigned.name} ${item.user_asigned.lastname}`}
+                            {`${task.user_asigned.name} ${task.user_asigned.lastname}`}
                             </td>
                             <td className="px-6 py-4">
-                                {item.completed ? 'Completed' : 'Pending'}
+                                {task.completed ? 'Completed' : 'Pending'}
                             </td>
                             <td className="px-6 py-4">
-                                {moment(item.created).format('YYYY-MM-DD')}
+                                {moment(task.created).format('YYYY-MM-DD')}
                             </td>
                             <td className="px-6 py-4">
-                                {item?.date_completed ? moment(item?.date_completed).format('YYYY-MM-DD') : 'Empty'}
+                                {task?.date_completed ? moment(task?.date_completed).format('YYYY-MM-DD') : 'Empty'}
                             </td>
                             <td className="px-6 py-4">
                                 {
-                                    item.completed ? 'Completed' : <button 
-                                    onClick={() => onMarkAsComplete(item.id)}
+                                    task.completed ? '-------' : <button 
+                                    onClick={() => onMarkAsComplete(task.id)}
                                     type="button" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Mark as completed</button>
                                 }
                             </td>
@@ -131,7 +129,7 @@ export const TaskList = ({ tasks = [] } : ITaskList) => {
                             </td>
                             <td className="px-6 py-4">
                                 <button type="button" 
-                                onClick={() => onDelete(item.id)}
+                                onClick={() => onDelete(task.id)}
                                 className="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</button>
                             </td>
                         </tr>
