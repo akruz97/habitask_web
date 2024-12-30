@@ -1,9 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import habitaskApi from "../../const/api";
 import { deleteTask, getTasks, markAsCompleteTask, postTask } from "../../services";
 import { ICreateTask } from "../../interfaces";
 import { addTask, removeTask, updateTasks } from "../slices/taskReducer";
-import moment from "moment";
 
 interface PaginationProps {
     limit: number,
@@ -16,7 +14,6 @@ export const getTasksAction  = createAsyncThunk('getTasksAction', async ({
 } : PaginationProps, { rejectWithValue } ) => {
     try {
         const response = await getTasks(offset, limit)
-        console.log(response);
         if(response.status) {
             return response.data;
         }
@@ -26,7 +23,6 @@ export const getTasksAction  = createAsyncThunk('getTasksAction', async ({
         });
         
     } catch (error) {
-        console.log(error);
         return rejectWithValue({
             errorMessage: error.message
         });
@@ -41,7 +37,6 @@ export const createTaskAction  = createAsyncThunk('createTaskAction', async (dat
             completed: data.completed,
             user_asigned_id: data.user_asigned_id
         });
-        console.log(response);
         if(response.status) {
             dispatch(addTask({
                 ...response.data,
@@ -56,7 +51,6 @@ export const createTaskAction  = createAsyncThunk('createTaskAction', async (dat
         });
         
     } catch (error) {
-        console.log(error);
         return rejectWithValue({
             errorMessage: error.message
         });
@@ -66,7 +60,6 @@ export const createTaskAction  = createAsyncThunk('createTaskAction', async (dat
 export const deleteTaskAction  = createAsyncThunk('deleteTaskAction', async (taskId : number, { rejectWithValue, dispatch } ) => {
     try {
         const response = await deleteTask(taskId);
-        console.log(response);
         if(response.status) {
             dispatch(removeTask({ id: taskId }))
             return response.data;
@@ -77,7 +70,6 @@ export const deleteTaskAction  = createAsyncThunk('deleteTaskAction', async (tas
         });
         
     } catch (error) {
-        console.log(error);
         return rejectWithValue({
             errorMessage: error.message
         });
@@ -88,15 +80,10 @@ export const deleteTaskAction  = createAsyncThunk('deleteTaskAction', async (tas
 export const markAsCompleteTaskAction  = createAsyncThunk('markAsCompleteTaskAction', async (taskId : number, { rejectWithValue, dispatch } ) => {
     try {
         const response = await markAsCompleteTask(taskId);
-        console.log('completed: ', response);
         if(response.status) {
             dispatch(updateTasks({
                 id: taskId
             }));
-            // dispatch(getTasksAction({
-            //     limit: 5,
-            //     offset: 0
-            // }));
 
             return {...response.data, id: taskId};
         }
@@ -106,7 +93,6 @@ export const markAsCompleteTaskAction  = createAsyncThunk('markAsCompleteTaskAct
         });
         
     } catch (error) {
-        console.log(error);
         return rejectWithValue({
             errorMessage: error.message
         });

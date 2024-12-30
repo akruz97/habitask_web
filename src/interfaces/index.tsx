@@ -32,12 +32,6 @@ export interface LoginData {
     password: string;
 }
 
-export interface ChangePasswordData {
-    email: string;
-    code: string;
-    password: string;
-}
-
 export interface RegisterData {
     name: string;
     lastname: string;
@@ -53,7 +47,6 @@ export interface ITaskList {
 export interface ICreateTask {
     title: string,
 	completed: boolean,
-	// user_id: number,
 	user_asigned_id: number,
     user_asigned?: {},
     user_owner?: {}

@@ -2,15 +2,11 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { baseURL } from "./api";
 
 
-// default
 axios.defaults.baseURL = baseURL;
-// content type
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-// content type
-// const authUser: any = localStorage.getItem("authUser")
+
 const token = localStorage.getItem('token');
-console.log('token apiClient: ', token);
 if (token) {
   axios.defaults.headers['x-token'] = token;
   axios.defaults.headers['authorization'] = token;
@@ -22,7 +18,6 @@ axios.interceptors.response.use(
     return response.data ? response.data : response;
   },
   function (error) {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
     let message;
     switch (error.status) {
       case 500:
@@ -40,24 +35,13 @@ axios.interceptors.response.use(
     return Promise.reject(message);
   }
 );
-/**
- * Sets the default authorization
- * @param {*} token
- */
+
 const setAuthorization = (token : any) => {
-  // axios.defaults.headers.common["Authorization"] = "Bearer " + token;
   axios.defaults.headers['authorization'] = token;
   axios.defaults.headers['x-token'] = token;
 };
 
 class APIClient {
-  /**
-   * Fetches data from given url
-   */
-
-  //  get = (url, params) => {
-  //   return axios.get(url, params);
-  // };
   get = (url : any, params : any) => {
     let response;
 
@@ -77,15 +61,11 @@ class APIClient {
 
     return response;
   };
-  /**
-   * post given data to url
-   */
+
   create = (url : any, data : any, headers : any = {}) => {
     return axios.post(url, data, headers);
   };
-  /**
-   * Updates data
-   */
+
   update = (url : any, data : any) => {
     return axios.patch(url, data);
   };
@@ -93,9 +73,7 @@ class APIClient {
   put = (url : any, data : any) => {
     return axios.put(url, data);
   };
-  /**
-   * Delete
-   */
+
   delete = (url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> => {
     return axios.delete(url, { ...config });
   };

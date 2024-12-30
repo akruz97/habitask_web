@@ -11,9 +11,9 @@ export const HomePage = () => {
 
     const { profile } = useSelector((state: RootState) => state.user);
 
-    // useEffect(() => {
-    //     dispatch(getUserProfileAction())
-    // }, [dispatch])
+    useEffect(() => {
+        dispatch(getUserProfileAction())
+    }, [dispatch])
 
     return (
         <React.Fragment>

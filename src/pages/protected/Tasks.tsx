@@ -1,5 +1,4 @@
 import React, { useEffect } from "react"
-import { Header } from "../../components/Header"
 import { useDispatch, useSelector } from "react-redux"
 import { getTasksAction } from "../../redux/actions/taskActions";
 import { RootState } from "../../redux/store";

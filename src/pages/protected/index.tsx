@@ -8,10 +8,6 @@ export const PrivateRoutes = () => {
         <Routes>
             <Route path='/tasks' element={<TasksPage />} />
             <Route path='/home'   element={<HomePage />} />
-            {/* <Route path='/index' element={<HomePage />} /> */}
-            {/* <Route path='/' index element={<HomePage />} /> */}
-            {/* <Route path='/' index element={<Navigate to='/home' />} /> */}
-            {/* <Route path='*' element={<Navigate to='/home' />} /> */}
         </Routes>
     );
 };

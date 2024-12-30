@@ -11,9 +11,7 @@ const Protected = (props : any) =>{
   
   useEffect(() => {
     const tok = localStorage.getItem('token');
-    console.log(tok);
     if (!tok) {
-        console.log('entra al !token: ', token);
       dispatch(logoutAction());
       return;
     }

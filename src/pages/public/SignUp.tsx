@@ -1,5 +1,5 @@
-import React, { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, {  useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { validateEmail } from "../../utils/validations";
 import PasswordStrength from "../../components/PasswordStrength";
 import { RegisterData } from "../../interfaces";
@@ -146,7 +146,6 @@ export const SignUpPage = () => {
       };
 
     const dataHandler = async childData => {
-      console.log('dataHandler: ', childData);
       setStrength(childData);
     };
 

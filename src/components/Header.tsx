@@ -15,7 +15,6 @@ export const Header = () => {
     const { token } = useSelector((state: RootState) => state.auth);
 
     useEffect(() => {
-        console.log(profile);
         if(!token){
             dispatch(logoutAction());
             navigate('/login');

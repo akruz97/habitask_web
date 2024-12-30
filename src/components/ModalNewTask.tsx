@@ -66,7 +66,6 @@ export function ModalNewTask({
 
     let users = [...userList];
     let asignedIndex = users.findIndex(x => x.id === form.user_asigned_id);
-    console.log('asigned', asignedIndex);
     let data: ICreateTask = {
       title: form.title,
       completed: form.completed,
@@ -74,7 +73,6 @@ export function ModalNewTask({
       user_owner: profile,
       user_asigned: users[asignedIndex]
     }
-    console.log(data);
     dispatch(createTaskAction(data));
   }
 
