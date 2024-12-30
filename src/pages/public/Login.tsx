@@ -5,6 +5,7 @@ import { RootState } from "../../redux/store";
 import { loginAction } from "../../redux/actions/authActions";
 import { LoginData } from "../../interfaces";
 import { clearMessage } from "../../redux/slices/authReducer";
+import { toast } from "react-toastify";
 
 export const LoginPage = () => {
 
@@ -19,7 +20,7 @@ export const LoginPage = () => {
 
     useEffect(() => {
         if(errorMessage && errorMessage?.length){
-            alert(errorMessage);
+            toast(errorMessage, { type: 'error' });
             dispatch(clearMessage());
             return;
         }

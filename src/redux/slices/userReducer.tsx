@@ -1,6 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { getListUserAction, getUserProfileAction } from '../actions/userActions';
+export interface PublicUser {
+    id: number,
+    name: string,
+    lastname: string,
+    email: string
+}
+
+export interface TaskProps {
+    id: number,
+    title: string,
+    completed: boolean,
+    created: string | null,
+    date_completed: string | null,
+    user_owner: PublicUser,
+    user_asigned: PublicUser
+}
 
 export interface UserState {
     profile: {
@@ -9,7 +25,7 @@ export interface UserState {
         lastname: string,
         email: string,
     },
-    userList: Array<Object>;
+    userList: Array<TaskProps>;
     errorMessage: string | null;
     loading: boolean
 }

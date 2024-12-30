@@ -1,3 +1,5 @@
+import { TaskProps } from "../redux/slices/userReducer";
+
 export interface AuthResponse<T = null> {
     status: boolean;
     msg: string;
@@ -41,13 +43,11 @@ export interface RegisterData {
     lastname: string;
     email: string;
     password: string;
-    accept_terms: boolean;
-    role: string;
 }
 
 
 export interface ITaskList {
-    tasks: Array<Object>;
+    tasks: Array<TaskProps>;
 }
 
 export interface ICreateTask {

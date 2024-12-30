@@ -1,14 +1,31 @@
-import React, { ChangeEvent, ChangeEventHandler, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { validateEmail } from "../../utils/validations";
 import PasswordStrength from "../../components/PasswordStrength";
+import { RegisterData } from "../../interfaces";
+import { useDispatch, useSelector } from "react-redux";
+import { registerAction } from "../../redux/actions/authActions";
+import { RootState } from "../../redux/store";
+import { resetFlagsRegister } from "../../redux/slices/authReducer";
+import { toast } from "react-toastify";
 
 export const SignUpPage = () => {
 
     const [name, setName] = useState<string>('');
+    const [lastname, setLastName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('')
     const [strength, setStrength] = useState(null)
+
+    const dispatch: any = useDispatch();
+
+    const { 
+        errorRegister,
+        successRegister,
+        loadingRegister
+     } = useSelector((state: RootState) => state.auth);
+
+     const navigate = useNavigate();
 
     const [error, setError] = useState<{
         email: string | null, password: string | null
@@ -17,11 +34,39 @@ export const SignUpPage = () => {
         password: null
     });
 
+    useEffect(() => {
+        if(errorRegister && errorRegister.length){
+            toast(errorRegister, { type: 'error' });
+            resetFlagsRegister();
+            return;
+        }
+
+        if(successRegister && successRegister.length){
+            toast(successRegister, { type: 'success' });
+            resetFlagsRegister();
+            navigate("/login");
+            return;
+        }
+    }, [
+        errorRegister,
+        successRegister
+    ])
+
     const onSubmit = (e) => {
         e.preventDefault();
+
+        let data: RegisterData = {
+            name,
+            lastname,
+            email,
+            password
+        };
+
+        dispatch(registerAction(data));
     }
 
     const onChangeName = (e: any) => setName(e.target.value); 
+    const onChangeLastName = (e: any) => setLastName(e.target.value);
     const onChangeEmail = (e: any) => setEmail(e.target.value); 
 
     const onValidateEmail = () => {
@@ -115,6 +160,17 @@ export const SignUpPage = () => {
                             value={name} 
                             className="border-2" 
                             onChange={onChangeName}
+                            maxLength={30}
+                            />
+                  
+                </div>
+                <div className="mt-5">
+                    <p>Lastname</p>
+                    <input type="text" 
+                            id="name" 
+                            value={lastname} 
+                            className="border-2" 
+                            onChange={onChangeLastName}
                             maxLength={30}
                             />
                   
